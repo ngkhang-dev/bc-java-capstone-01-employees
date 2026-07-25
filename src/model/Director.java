@@ -4,42 +4,55 @@ public class Director extends Employee {
 
 //    Properties
 
-    private double stock;
+    private static final double DEFAULT_DAILY_WAGE = 300;
+    private double sharePercent;
 
 //    Constructor
 
     public Director() {
+        super();
     }
 
-    public Director(String id, String fullName, String phoneNumber, double workingDays, double stock) {
-        super(id, fullName, phoneNumber, workingDays, 300);
-        this.stock = stock;
+    public Director(String id, String fullName, String phoneNumber, double workingDays, double sharePercent) {
+        super(id, fullName, phoneNumber, workingDays, Director.DEFAULT_DAILY_WAGE);
+
+        setSharePercent(sharePercent);
     }
 
 //    Methods
 
-    public double calculateTotalIncome(double revenueInMonthOfCompany, double totalSalaryOfEmployees) {
-        return calculateMonthlySalary() + stock * (revenueInMonthOfCompany - totalSalaryOfEmployees);
+    public double calculateIncome(double companyProfit) {
+        return calculateMonthlySalary() + (sharePercent / 100) * companyProfit;
     }
-
 
 //    Override Methods
 
     @Override
     public double calculateMonthlySalary() {
-        return dailySalary * workingDays;
+        return dailyWage * workingDays;
     }
 
-//    Getter and Setter
-
-    public double getStock() {
-        return stock;
+    @Override
+    public String getExtraInfo() {
+        return "";
     }
 
-    public void setStock(double stock) {
-        if (stock < 0 || stock > 100) {
-            throw new IllegalArgumentException("Cổ phần phải nằm trong khoảng từ 0% - 100%");
+    @Override
+    public String getRoleName() {
+        return "DIRECTOR";
+    }
+
+    //    Getter and Setter
+
+    public double getSharePercent() {
+        return sharePercent;
+    }
+
+    public void setSharePercent(double sharePercent) {
+        if (sharePercent < 0 || sharePercent > 100) {
+            throw new IllegalArgumentException("Phần trăm cổ phần phải nằm trong khoảng từ 0 - 100");
         }
-        this.stock = stock;
+
+        this.sharePercent = sharePercent;
     }
 }

@@ -8,19 +8,19 @@ public abstract class Employee {
     protected String fullName;
     protected String phoneNumber;
     protected double workingDays;
-    protected double dailySalary;
+    protected double dailyWage;
 
 //    Constructor
 
     public Employee() {
     }
 
-    public Employee(String id, String fullName, String phoneNumber, double workingDays, double dailySalary) {
+    public Employee(String id, String fullName, String phoneNumber, double workingDays, double dailyWage) {
         this.id = id;
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
         this.workingDays = workingDays;
-        this.dailySalary = dailySalary;
+        this.dailyWage = dailyWage;
     }
 
 //    Methods
@@ -30,7 +30,11 @@ public abstract class Employee {
 
 //    Abstract Methods
 
+    public abstract String getRoleName();
+
     public abstract double calculateMonthlySalary();
+
+    public abstract String getExtraInfo();
 
 //    Getter and Setter
 
@@ -90,14 +94,14 @@ public abstract class Employee {
         this.workingDays = workingDays;
     }
 
-    public double getDailySalary() {
-        return dailySalary;
+    public double getDailyWage() {
+        return dailyWage;
     }
 
-    public void setDailySalary(double dailySalary) {
-        if (dailySalary < 0) {
+    public void setDailyWage(double dailyWage) {
+        if (dailyWage < 0) {
             throw new IllegalArgumentException("Số tiền lương không được âm");
         }
-        this.dailySalary = dailySalary;
+        this.dailyWage = dailyWage;
     }
 }

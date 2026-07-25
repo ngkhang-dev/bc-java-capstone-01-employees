@@ -6,23 +6,23 @@ public class Company {
 
     private String name;
     private String taxCode;
-    private double revenueOfMonth;
+    private double monthlyRevenue;
 
 //    Constructor
 
     public Company() {
     }
 
-    public Company(String name, double revenueOfMonth, String taxCode) {
+    public Company(String name, double monthlyRevenue, String taxCode) {
         this.name = name;
-        this.revenueOfMonth = revenueOfMonth;
+        this.monthlyRevenue = monthlyRevenue;
         this.taxCode = taxCode;
     }
 
 //    Methods
 
-    public double totalProfit (double totalSalaryOfEmployees) {
-        return revenueOfMonth - totalSalaryOfEmployees;
+    public double calculateCompanyProfit(double totalSalaryOfEmployees) {
+        return monthlyRevenue - totalSalaryOfEmployees;
     }
 
 //    Override Methods
@@ -41,12 +41,12 @@ public class Company {
         this.name = name;
     }
 
-    public double getRevenueOfMonth() {
-        return revenueOfMonth;
+    public double getMonthlyRevenue() {
+        return monthlyRevenue;
     }
 
-    public void setRevenueOfMonth(double revenueOfMonth) {
-        this.revenueOfMonth = revenueOfMonth;
+    public void setMonthlyRevenue(double monthlyRevenue) {
+        this.monthlyRevenue = monthlyRevenue;
     }
 
     public String getTaxCode() {
