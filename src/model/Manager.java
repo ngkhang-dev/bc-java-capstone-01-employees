@@ -5,12 +5,9 @@ import java.util.List;
 
 public class Manager extends Employee {
 
-    //    Properties
     private static final double DEFAULT_DAILY_WAGE = 200;
     private static final double BONUS_PER_STAFF = 100;
     private List<Staff> managedStaffs;
-
-//    Constructor
 
     public Manager() {
         super();
@@ -21,8 +18,6 @@ public class Manager extends Employee {
         super(id, fullName, phoneNumber, workingDays, Manager.DEFAULT_DAILY_WAGE);
         this.managedStaffs = new ArrayList<Staff>();
     }
-
-//    Methods
 
     public void addStaff(Staff staff) {
         if (staff == null || managedStaffs.contains(staff)) {
@@ -49,24 +44,21 @@ public class Manager extends Employee {
         return managedStaffs.size();
     }
 
-//    Override Methods
-
     @Override
     public double calculateMonthlySalary() {
         return dailyWage * workingDays + Manager.BONUS_PER_STAFF * managedStaffs.size();
     }
 
     @Override
-    public String getExtraInfo() {
-        return "";
+    public void showExtraInfo() {
+        super.showInfo();
+        System.out.printf("|%-12s|\n", managedStaffs.size());
     }
 
     @Override
     public String getRoleName() {
         return "MANAGER";
     }
-
-//    Getter and Setter
 
     public List<Staff> getManagedStaff() {
         return managedStaffs;

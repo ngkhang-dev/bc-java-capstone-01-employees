@@ -2,12 +2,8 @@ package model;
 
 public class Staff extends Employee {
 
-//    Properties
-
     private static final double DEFAULT_DAILY_WAGE = 100;
     private Manager manager;
-
-//    Constructor
 
     public Staff() {
         super();
@@ -23,13 +19,9 @@ public class Staff extends Employee {
         this.manager = manager;
     }
 
-//    Methods
-
     public void removeManager() {
         this.manager = null;
     }
-
-//    Override Methods
 
     @Override
     public double calculateMonthlySalary() {
@@ -37,16 +29,15 @@ public class Staff extends Employee {
     }
 
     @Override
-    public String getExtraInfo() {
-        return "";
+    public void showExtraInfo() {
+        super.showInfo();
+        System.out.printf("|%-25s|\n", manager != null ? manager.getFullName() : "null");
     }
 
     @Override
     public String getRoleName() {
         return "STAFF";
     }
-
-    //    Getter and Setter
 
     public Manager getManager() {
         return manager;

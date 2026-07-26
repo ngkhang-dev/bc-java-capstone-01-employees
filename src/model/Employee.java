@@ -2,15 +2,11 @@ package model;
 
 public abstract class Employee {
 
-//    Properties
-
     protected String id;
     protected String fullName;
     protected String phoneNumber;
     protected double workingDays;
     protected double dailyWage;
-
-//    Constructor
 
     public Employee() {
     }
@@ -23,20 +19,16 @@ public abstract class Employee {
         this.dailyWage = dailyWage;
     }
 
-//    Methods
+    public void showInfo() {
+        System.out.printf("|%-14s|%-25s|%-12s|%-14s|%-13.1f|%-13.2f",
+                id, fullName, getRoleName(), phoneNumber, workingDays, dailyWage);
+    }
 
-    // TODO: Implement showInfo() method
-
-
-//    Abstract Methods
+    public abstract void showExtraInfo();
 
     public abstract String getRoleName();
 
     public abstract double calculateMonthlySalary();
-
-    public abstract String getExtraInfo();
-
-//    Getter and Setter
 
     public String getId() {
         return id;

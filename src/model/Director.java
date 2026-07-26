@@ -2,12 +2,8 @@ package model;
 
 public class Director extends Employee {
 
-//    Properties
-
     private static final double DEFAULT_DAILY_WAGE = 300;
     private double sharePercent;
-
-//    Constructor
 
     public Director() {
         super();
@@ -19,13 +15,9 @@ public class Director extends Employee {
         setSharePercent(sharePercent);
     }
 
-//    Methods
-
     public double calculateIncome(double companyProfit) {
         return calculateMonthlySalary() + (sharePercent / 100) * companyProfit;
     }
-
-//    Override Methods
 
     @Override
     public double calculateMonthlySalary() {
@@ -33,16 +25,15 @@ public class Director extends Employee {
     }
 
     @Override
-    public String getExtraInfo() {
-        return "";
+    public void showExtraInfo() {
+        super.showInfo();
+        System.out.printf("|%-17.2f|\n", getSharePercent());
     }
 
     @Override
     public String getRoleName() {
         return "DIRECTOR";
     }
-
-    //    Getter and Setter
 
     public double getSharePercent() {
         return sharePercent;
