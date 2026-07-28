@@ -2,13 +2,9 @@ package model;
 
 public class Company {
 
-//    Properties
-
     private String name;
     private String taxCode;
     private double monthlyRevenue;
-
-//    Constructor
 
     public Company() {
     }
@@ -19,15 +15,17 @@ public class Company {
         this.taxCode = taxCode;
     }
 
-//    Methods
-
     public double calculateCompanyProfit(double totalSalaryOfEmployees) {
         return monthlyRevenue - totalSalaryOfEmployees;
     }
 
-//    Override Methods
-
-//    Getter and Setter
+    public void showInfo() {
+        System.out.printf("""
+                - Company name: %-25s
+                - Tax code: %-15s
+                - Monthly revenue: %-15.2f
+                """, name, taxCode, monthlyRevenue);
+    }
 
     public String getName() {
         return name;

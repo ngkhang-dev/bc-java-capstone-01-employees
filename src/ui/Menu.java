@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Menu {
 
     private String menuTitle;
-    private ArrayList<String> optionList = new ArrayList<>();
+    private final ArrayList<String> optionList = new ArrayList<>();
 
     public Menu() {
     }
@@ -54,10 +54,19 @@ public class Menu {
      * @return user's choice
      */
     public int getChoice() {
-        int maxOption = optionList.size();
+        int maxOption = getCountOption();
 
         String inputMsg = "Enter your choice [1-" + maxOption + "]";
 
         return InputHelper.readInt(inputMsg, 1, maxOption, "Your choice");
+    }
+
+    /**
+     * Get the number of options in the menu
+     *
+     * @return The number of options
+     */
+    public int getCountOption() {
+        return optionList.size();
     }
 }

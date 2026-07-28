@@ -52,7 +52,7 @@ public class Manager extends Employee {
     @Override
     public void showExtraInfo() {
         super.showInfo();
-        System.out.printf("|%-12s|\n", managedStaffs.size());
+        System.out.printf("|%-12s|\n", getManagedStaffCount());
     }
 
     @Override
@@ -64,11 +64,17 @@ public class Manager extends Employee {
         return managedStaffs;
     }
 
-    public void setManagedStaff(List<Staff> managedStaff) {
-        this.managedStaffs = managedStaff;
+    public void setManagedStaff(Staff staff) {
+        this.addStaff(staff);
     }
 
-    public void setManagedStaff(Staff staff) {
-        this.managedStaffs.add(staff);
+    public void setManagedStaff(Staff... staffList) {
+        if (staffList == null || staffList.length == 0) {
+            return;
+        }
+
+        for (Staff staff : staffList) {
+            this.addStaff(staff);
+        }
     }
 }

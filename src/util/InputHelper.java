@@ -9,7 +9,7 @@ public final class InputHelper {
     /**
      * Enter a string
      *
-     * @param msg
+     * @param msg The message to display to the user
      * @return The string entered by the user or null if the user presses Enter
      */
     public static String readLine(String msg) {
@@ -20,7 +20,7 @@ public final class InputHelper {
     /**
      * Enter a string and check if it is empty
      *
-     * @param msg
+     * @param msg The message to display to the user
      * @param fieldName The label of the field
      * @return The string entered by the user
      */
@@ -37,9 +37,29 @@ public final class InputHelper {
     }
 
     /**
+     * Enter a string and check if it matches the specified regular expression
+     *
+     * @param msg The message to display to the user
+     * @param regex The regular expression to match
+     * @param errorMessage The error message to display if the input does not match the regular expression
+     * @return The string entered by the user
+     */
+    public static String readLine(String msg, String regex, String errorMessage) {
+        while (true) {
+            String input = readLine(msg);
+
+            if (input.matches(regex)) {
+                return input;
+            }
+
+            System.out.printf(errorMessage);
+        }
+    }
+
+    /**
      * Enter an integer
      *
-     * @param msg
+     * @param msg The message to display to the user
      * @param fieldName The label of the field
      * @return The integer entered by the user
      */
@@ -57,9 +77,9 @@ public final class InputHelper {
     /**
      * Enter an integer and check if it is within the specified range
      *
-     * @param msg
-     * @param min
-     * @param max
+     * @param msg The message to display to the user
+     * @param min The minimum value of the range
+     * @param max The maximum value of the range
      * @param fieldName The label of the field
      * @return The integer entered by the user
      */
@@ -78,7 +98,7 @@ public final class InputHelper {
     /**
      * Enter a double
      *
-     * @param msg
+     * @param msg The message to display to the user
      * @param fieldName The label of the field
      * @return The double entered by the user
      */
@@ -96,15 +116,15 @@ public final class InputHelper {
     /**
      * Enter a double and check if it is within the specified range
      *
-     * @param message
-     * @param min
-     * @param max
+     * @param msg The message to display to the user
+     * @param min The minimum value of the range
+     * @param max The maximum value of the range
      * @param fieldName The label of the field
      * @return The double entered by the user
      */
-    public static double readDouble(String message, double min, double max, String fieldName) {
+    public static double readDouble(String msg, double min, double max, String fieldName) {
         while (true) {
-            double input = readDouble(message, fieldName);
+            double input = readDouble(msg, fieldName);
 
             if (input >= min && input <= max) {
                 return input;
