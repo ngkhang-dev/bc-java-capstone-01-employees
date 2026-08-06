@@ -52,7 +52,7 @@ public final class InputHelper {
                 return input;
             }
 
-            System.out.printf(errorMessage);
+            System.out.println(errorMessage);
         }
     }
 

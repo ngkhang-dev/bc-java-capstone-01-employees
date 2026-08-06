@@ -42,7 +42,8 @@ public class EmployeeManager {
 
     public void enterInfoCompany() {
         company.setName(InputHelper.readLine("Enter company name", "Name"));
-        company.setTaxCode(InputHelper.readLine("Enter company tax code", "\\d{10,13}", "Tax Code must be 10 to 13 digits"));
+        company.setTaxCode(InputHelper.readLine("Enter company tax code", "\\d{10,13}", "Tax Code must be 10 to 13 " +
+                "digits"));
         company.setMonthlyRevenue(InputHelper.readDouble("Enter monthly revenue", "Monthly Revenue"));
         company.showInfo();
     }
@@ -117,9 +118,14 @@ public class EmployeeManager {
         double maxSalary = 0;
 
         for (Employee employee : employees) {
-            if (employee instanceof Staff && employee.calculateMonthlySalary() >= maxSalary) {
-                maxSalary = employee.calculateMonthlySalary();
-                topSalaryStaffs.add((Staff) employee);
+            if (employee instanceof Staff) {
+                if (employee.calculateMonthlySalary() > maxSalary) {
+                    maxSalary = employee.calculateMonthlySalary();
+                    topSalaryStaffs.clear();
+                    topSalaryStaffs.add((Staff) employee);
+                } else if (employee.calculateMonthlySalary() == maxSalary) {
+                    topSalaryStaffs.add((Staff) employee);
+                }
             }
         }
 
@@ -148,8 +154,11 @@ public class EmployeeManager {
                 Manager manager = (Manager) employee;
                 int staffCount = manager.getManagedStaffCount();
 
-                if (staffCount >= maxStaffCount) {
+                if (staffCount > maxStaffCount) {
                     maxStaffCount = staffCount;
+                    managerWithMostStaffs.clear();
+                    managerWithMostStaffs.add(manager);
+                } else if (staffCount == maxStaffCount) {
                     managerWithMostStaffs.add(manager);
                 }
             }
@@ -190,8 +199,11 @@ public class EmployeeManager {
             if (employee instanceof Director) {
                 Director director = (Director) employee;
                 double sharePercent = director.getSharePercent();
-                if (sharePercent >= maxSharePercent) {
+                if (sharePercent > maxSharePercent) {
                     maxSharePercent = sharePercent;
+                    directorWithMostSharePercents.clear();
+                    directorWithMostSharePercents.add(director);
+                } else if (sharePercent == maxSharePercent) {
                     directorWithMostSharePercents.add(director);
                 }
             }
