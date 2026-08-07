@@ -88,6 +88,110 @@ public class EmployeeManager {
     }
 
     /**
+     * Entry point for the "Add/Delete an employee" menu option
+     */
+    public void manageEmployeeRecord() {
+        System.out.println("""
+                1. Add employee
+                2. Delete employee
+                """);
+        int choice = InputHelper.readInt("Enter your choice [1-2]", 1, 2, "Your choice");
+
+        if (choice == 1) {
+            addEmployee();
+        } else {
+            deleteEmployee();
+        }
+    }
+
+    /**
+     * Add a new employee to the company
+     */
+    public void addEmployee() {
+        String role = InputHelper.readLine("Enter role [STAFF|MANAGER|DIRECTOR]", "(STAFF|MANAGER|DIRECTOR)",
+                "Role must be one of: STAFF, MANAGER, DIRECTOR");
+
+        String fullName = InputHelper.readLine("Enter full name", ".{3,}", "Full name must be at least 3 characters");
+        String phoneNumber = InputHelper.readLine("Enter phone number", "\\d{10,11}",
+                "Phone number must be 10 to 11 digits");
+        double workingDays = InputHelper.readDouble("Enter working days", 0, 31, "Working Days");
+
+        String id = generateId(role);
+        Employee newEmployee;
+
+        if (role.equals("STAFF")) {
+            Manager manager = null;
+            String managerId = InputHelper.readLine("Enter manager ID (leave blank if none)");
+
+            if (!managerId.isEmpty()) {
+                manager = findManagerById(managerId);
+                if (manager == null) {
+                    System.out.printf("""
+                            No manager found with ID %s.
+                            Staff will be added without a manager.
+                            """, managerId);
+                }
+            }
+
+            Staff staff = new Staff(id, fullName, phoneNumber, workingDays, manager);
+            if (manager != null) {
+                manager.addStaff(staff);
+            }
+
+            newEmployee = staff;
+
+        } else if (role.equals("MANAGER")) {
+            newEmployee = new Manager(id, fullName, phoneNumber, workingDays);
+        } else {
+            double sharePercent = InputHelper.readDouble("Enter share percent (0-100)", 0, 100, "Share Percent");
+            newEmployee = new Director(id, fullName, phoneNumber, workingDays, sharePercent);
+        }
+
+        employees.add(newEmployee);
+        System.out.println("Added successfully. New employee ID: " + id);
+    }
+
+    /**
+     * Delete an employee from the company
+     */
+    public void deleteEmployee() {
+        String id = InputHelper.readLine("Enter employee ID to delete", "ID");
+
+        Employee target = findEmployeeById(id);
+        if (target == null) {
+            System.out.println("No employee found with ID " + id + ".");
+            return;
+        }
+
+        System.out.printf("|%-14s|%-25s|%-12s|%-14s|%-13s|%-13s|\n",
+                "ID", "Full Name", "Role", "Phone Number", "Working Days", "Daily Wage");
+        target.showInfo();
+        System.out.println("|");
+
+        String confirm = InputHelper.readLine("Are you sure you want to delete this employee? (y/n)");
+        if (!confirm.equalsIgnoreCase("y")) {
+            System.out.println("Deletion cancelled.");
+            return;
+        }
+
+        if (target instanceof Manager) {
+            Manager manager = (Manager) target;
+            for (Staff staff : manager.getManagedStaff()) {
+                staff.removeManager();
+            }
+            manager.getManagedStaff().clear();
+        } else if (target instanceof Staff) {
+            Staff staff = (Staff) target;
+            if (staff.getManager() != null) {
+                staff.getManager().removeStaff(staff);
+            }
+        }
+
+        employees.remove(target);
+        System.out.println("Deleted employee " + target.getFullName() + " (" + target.getId() + ") successfully.");
+    }
+
+    /**
      * Print information of all employees
      */
     public void getInfoOfAllEmployees() {
@@ -264,5 +368,33 @@ public class EmployeeManager {
                 .filter(type::isInstance)
                 .map(type::cast)
                 .collect(Collectors.toList());
+    }
+
+    private String generateId(String rolePrefix) {
+        long maxIndex = employees.stream()
+                .map(employee -> employee.getId())
+                .filter(exitingId -> exitingId.startsWith(rolePrefix + "-"))
+                .map(existingId -> existingId.substring(rolePrefix.length() + 1))
+                .mapToLong(Long::parseLong)
+                .max()
+                .orElse(0L);
+
+        return String.format("%s-%03d", rolePrefix, maxIndex + 1);
+    }
+
+    private Manager findManagerById(String managerId) {
+        Employee employee = findEmployeeById(managerId);
+
+        return (employee instanceof Manager) ? (Manager) employee : null;
+    }
+
+    private Employee findEmployeeById(String id) {
+        for (Employee employee : employees) {
+            if (employee.getId().equals(id)) {
+                return employee;
+            }
+        }
+
+        return null;
     }
 }

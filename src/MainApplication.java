@@ -30,7 +30,7 @@ public class MainApplication {
                     break;
                 case 3:
                     System.out.println("\nAdd/Delete an employee");
-                    // TODO: Implement add a new employee
+                    hrManager.manageEmployeeRecord();
                     break;
                 case 4:
                     System.out.println("\nPrint information of employees in the company");
